@@ -40,3 +40,15 @@ describe("Part 1", () => {
       expect(solve(["aaebbqb", "rqwqrr", "aafed"], 1)).toBe(6));
   });
 });
+
+describe("Part 2", () => {
+  describe("With given input", () => {
+    it("solves abcde, fghij, klmno, pqrst, fguij, axcye, wvxyz for fgij", () =>
+      expect(
+        solve(
+          ["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"],
+          2
+        )
+      ).toBe("fgij"));
+  });
+});
