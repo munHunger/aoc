@@ -7,21 +7,21 @@ describe("Part 1", () => {
     });
     describe("That is repeating twice", () => {
       it("solves for 1 when 1 character is repeated", () =>
-        expect(solve(["adedw"], 1)).toBe(1));
+        expect(solve(["adedwww"], 1)).toBe(1));
       it("solves for 1 when 2 characters are repeated", () =>
-        expect(solve(["adedwa"], 1)).toBe(1));
+        expect(solve(["adedwwwa"], 1)).toBe(1));
     });
     describe("That is repeated three times", () => {
       it("solves for 1 when 1 character is repeated", () =>
-        expect(solve(["adeddw"], 1)).toBe(1));
+        expect(solve(["adeddww"], 1)).toBe(1));
       it("solves for 1 when 2 characters are repeated", () =>
-        expect(solve(["adeddwaa"], 1)).toBe(1));
+        expect(solve(["adeddwwaa"], 1)).toBe(1));
     });
     describe("That is repeated 2 and 3 times", () => {
-      it("solves for 2 when 3 is first", () =>
-        expect(solve(["adeddwa"], 1)).toBe(2));
-      it("solves for 2 when 2 is first", () =>
-        expect(solve(["adedwaa"], 1)).toBe(2));
+      it("solves for 1 when 3 is first", () =>
+        expect(solve(["adeddwa"], 1)).toBe(1));
+      it("solves for 1 when 2 is first", () =>
+        expect(solve(["adedwaa"], 1)).toBe(1));
     });
   });
 
@@ -30,7 +30,13 @@ describe("Part 1", () => {
       it("solves for 0", () => expect(solve(["abc", "cde"], 1)).toBe(0));
     });
     describe("with repetition", () => {
-      it("is summed", () => expect(solve(["aaebbqb", "rqwq"], 1)).toBe(3));
+      it("is multiplied", () =>
+        expect(solve(["aaebbqb", "rqwqrr"], 1)).toBe(4));
     });
+  });
+
+  describe("With three inputs", () => {
+    it("mutiplies", () =>
+      expect(solve(["aaebbqb", "rqwqrr", "aafed"], 1)).toBe(6));
   });
 });
