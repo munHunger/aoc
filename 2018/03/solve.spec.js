@@ -21,3 +21,12 @@ describe("Part 1", () => {
         solve(["#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2"], 1)
       ).toBe(4)));
 });
+
+describe("Part 2", () => {
+  describe("With a non overlaping piece", () => {
+    it("solves 3 for #1 @ 1,3: 4x4;#2 @ 3,1: 4x4; #3 @ 5,5: 2x2", () =>
+      expect(
+        solve(["#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2"], 2)
+      ).toBe(3));
+  });
+});
