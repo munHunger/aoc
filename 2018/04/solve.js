@@ -68,6 +68,60 @@ function getID(row) {
   if (regex) return parseInt(regex[0]);
 }
 
-function part2(input) {}
+function part2(input) {
+  let shifts = [];
+  let active;
+  input = input.sort((a, b) =>
+    a.substring(0, 18) < b.substring(0, 18) ? -1 : 1
+  );
+  input.forEach(row => {
+    let id = getID(row);
+    if (id) active = id;
+    else {
+      if (!shifts[active]) shifts[active] = { id: active, shifts: [] };
+      shifts[active].shifts.push(row);
+    }
+  });
+  shifts.forEach(
+    guard =>
+      (guard.shifts = guard.shifts
+        .reduce((acc, val, index) => {
+          if (index % 2 == 0) acc.push([]);
+          acc[acc.length - 1].push(val);
+          return acc;
+        }, [])
+        .map(cycle => {
+          let minutes = [];
+          for (let i = getMinute(cycle[0]); i < getMinute(cycle[1]); i++)
+            minutes[i] = 1;
+          return minutes;
+        })
+        .reduce((acc, val) => {
+          for (let i = 0; i < 60; i++) {
+            let newVal = 0;
+            if (val[i]) newVal += val[i];
+            if (acc[i]) newVal += acc[i];
+            acc[i] = newVal;
+          }
+          return acc;
+        }, []))
+  );
+  let single = shifts
+    .map(guard => {
+      return {
+        id: guard.id,
+        minute: guard.shifts.reduce(
+          (acc, val, index) => {
+            if (val > acc.val) return { index: index, val: val };
+            return acc;
+          },
+          { index: -1, val: 0 }
+        )
+      };
+    })
+    .filter(guard => guard)
+    .sort((a, b) => b.minute.val - a.minute.val)[0];
+  return single.id * single.minute.index;
+}
 
 module.exports = { solve };
