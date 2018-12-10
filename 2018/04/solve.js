@@ -6,6 +6,9 @@ function solve(input, part) {
 function part1(input) {
   let shifts = [];
   let active;
+  input = input.sort((a, b) =>
+    a.substring(0, 18) < b.substring(0, 18) ? -1 : 1
+  );
   input.forEach(row => {
     let id = getID(row);
     if (id) active = id;
