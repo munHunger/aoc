@@ -72,7 +72,39 @@ function part1(input) {
     .sort((a, b) => b.count - a.count)[0].count;
 }
 
-function part2(input) {}
+function part2(input) {
+  input = input.map(row => parseRow(row));
+  let limits = input.reduce(
+    (acc, val) => {
+      return {
+        min: {
+          x: Math.min(acc.min.x, val.x),
+          y: Math.min(acc.min.y, val.y)
+        },
+        max: {
+          x: Math.max(acc.max.x, val.x),
+          y: Math.max(acc.max.y, val.y)
+        }
+      };
+    },
+    {
+      min: { x: Number.MAX_VALUE, y: Number.MAX_VALUE },
+      max: { x: Number.MIN_VALUE, y: Number.MIN_VALUE }
+    }
+  );
+  let area = 0;
+  for (let x = limits.min.x - 1; x < limits.max.x + 1; x++) {
+    for (let y = limits.min.y - 1; y < limits.max.y + 1; y++) {
+      area +=
+        input
+          .map(row => Math.abs(x - row.x) + Math.abs(y - row.y))
+          .reduce((acc, val) => (acc += val), 0) < 10000
+          ? 1
+          : 0;
+    }
+  }
+  return area;
+}
 
 function parseRow(row) {
   return { x: parseInt(row.split(",")[0]), y: parseInt(row.split(",")[1]) };
