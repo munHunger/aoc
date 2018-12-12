@@ -12,8 +12,8 @@ function part1(input) {
           y: Math.min(acc.min.y, val.y)
         },
         max: {
-          x: Math.max(acc.min.x, val.x),
-          y: Math.max(acc.min.y, val.y)
+          x: Math.max(acc.max.x, val.x),
+          y: Math.max(acc.max.y, val.y)
         }
       };
     },
@@ -42,27 +42,34 @@ function part1(input) {
   for (let x = limits.min.x - 1; x < limits.max.x + 1; x++) {
     for (let y = limits.min.y - 1; y < limits.max.y + 1; y++) {
       if (
-        (x == limits.min.x - 1 ||
-          x == limits.max.x ||
-          y == limits.min.y - 1 ||
-          y == limits.max.y) &&
-        board[x][y] >= 0
+        x == limits.min.x - 1 ||
+        x == limits.max.x ||
+        y == limits.min.y - 1 ||
+        y == limits.max.y
       )
         blackList.add(board[x][y]);
     }
   }
-
-  let map = new Map();
-  board.forEach(row =>
-    row
-      .map(col => {
-        return { id: col, count: 1 };
-      })
-      .forEach(cell =>
-        map.set(cell.id, cell.count + (map.get(cell.id) ? map.get(cell.id) : 0))
-      )
-  );
-  return Array.from(map.values()).sort((a, b) => b - a)[0];
+  blackList.add(-1);
+  return board
+    .map(row =>
+      row
+        .map(col => {
+          return { id: col, count: 1 };
+        })
+        .filter(cell => !blackList.has(cell.id))
+    )
+    .reduce((acc, val) => {
+      val.forEach(cell => acc.push(cell));
+      return acc;
+    }, [])
+    .sort((a, b) => a.id - b.id)
+    .reduce((acc, val) => {
+      if (acc.length == 0 || acc[acc.length - 1].id !== val.id) acc.push(val);
+      else acc[acc.length - 1].count += val.count;
+      return acc;
+    }, [])
+    .sort((a, b) => b.count - a.count)[0].count;
 }
 
 function part2(input) {}
