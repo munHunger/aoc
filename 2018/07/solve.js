@@ -22,16 +22,24 @@ function part1(input) {
       dependencies.filter(other => other.depend.indexOf(dep.name) > -1)
         .length == 0
   )[0];
+  console.log("dep:");
+  console.log(dependencies);
+  console.log("---------starting tree print--------");
   return treeToString(start, dependencies, new Set());
 }
 
 function treeToString(start, tree, visited) {
+  console.log(start);
+  console.log(tree.filter(dep => dep.depend.indexOf(start.name) > -1));
   if (
     tree
       .filter(dep => dep.depend.indexOf(start.name) > -1)
-      .filter(dep => !visited.has(dep.name)).length > 0
-  )
+      .filter(dep => !visited.has(dep.name)).length > 0 ||
+    visited.has(start.name)
+  ) {
+    console.log("skipped");
     return "";
+  }
   visited.add(start.name);
   return (
     start.name +
