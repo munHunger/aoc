@@ -10,29 +10,39 @@ function part1(input) {
         child: row.substring(36, 37)
       };
     })
-    .sort((a, b) => a.child.localeCompare(b.child))
+    .sort((a, b) => a.parent.localeCompare(b.parent))
     .reduce((acc, val) => {
-      if (acc.length == 0 || acc[acc.length - 1].name !== val.child)
-        acc.push({ name: val.child, depend: [val.parent] });
-      else acc[acc.length - 1].depend.push(val.parent);
+      if (acc.length == 0 || acc[acc.length - 1].name !== val.parent)
+        acc.push({ name: val.parent, depend: [val.child] });
+      else acc[acc.length - 1].depend.push(val.child);
       return acc;
     }, []);
-  end = dependencies.filter(
+  start = dependencies.filter(
     dep =>
       dependencies.filter(other => other.depend.indexOf(dep.name) > -1)
         .length == 0
   )[0];
-  console.log(treeToString(end, dependencies));
+  return treeToString(start, dependencies, new Set());
 }
 
-function treeToString(start, tree) {
+function treeToString(start, tree, visited) {
+  if (
+    tree
+      .filter(dep => dep.depend.indexOf(start.name) > -1)
+      .filter(dep => !visited.has(dep.name)).length > 0
+  )
+    return "";
+  visited.add(start.name);
   return (
     start.name +
-    start.depend.sort().map(dep => {
-      let other = tree.filter(other => other.name === dep);
-      if (other.length > 0) return treeToString(other[0], tree);
-      else return dep;
-    })
+    start.depend
+      .sort()
+      .map(dep => {
+        let other = tree.filter(other => other.name === dep);
+        if (other.length > 0) return treeToString(other[0], tree, visited);
+        else return treeToString({ name: dep, depend: [] }, tree, visited);
+      })
+      .reduce((acc, val) => (acc += val), "")
   );
 }
 
