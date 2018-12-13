@@ -17,41 +17,23 @@ function part1(input) {
       else acc[acc.length - 1].depend.push(val.child);
       return acc;
     }, []);
-  start = dependencies.filter(
-    dep =>
-      dependencies.filter(other => other.depend.indexOf(dep.name) > -1)
-        .length == 0
-  )[0];
-  console.log("dep:");
-  console.log(dependencies);
-  console.log("---------starting tree print--------");
-  return treeToString(start, dependencies, new Set());
-}
-
-function treeToString(start, tree, visited) {
-  console.log(start);
-  console.log(tree.filter(dep => dep.depend.indexOf(start.name) > -1));
-  if (
-    tree
-      .filter(dep => dep.depend.indexOf(start.name) > -1)
-      .filter(dep => !visited.has(dep.name)).length > 0 ||
-    visited.has(start.name)
-  ) {
-    console.log("skipped");
-    return "";
+  let result = "";
+  while (dependencies.length > 0) {
+    start = dependencies
+      .filter(
+        dep =>
+          dependencies.filter(other => other.depend.indexOf(dep.name) > -1)
+            .length == 0
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))[0];
+    result += start.name;
+    if (dependencies.length == 1)
+      result += start.depend.filter(
+        state => result.split("").filter(char => char === state).length == 0
+      )[0];
+    dependencies.splice(dependencies.indexOf(start), 1);
   }
-  visited.add(start.name);
-  return (
-    start.name +
-    start.depend
-      .sort()
-      .map(dep => {
-        let other = tree.filter(other => other.name === dep);
-        if (other.length > 0) return treeToString(other[0], tree, visited);
-        else return treeToString({ name: dep, depend: [] }, tree, visited);
-      })
-      .reduce((acc, val) => (acc += val), "")
-  );
+  return result;
 }
 
 function part2(input) {}
