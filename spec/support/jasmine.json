@@ -1,0 +1,4 @@
+{
+  "spec_dir": "2018",
+  "spec_files": ["**/*[sS]pec.js"]
+}
