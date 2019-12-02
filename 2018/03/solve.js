@@ -23,12 +23,6 @@ function part1(input) {
     .reduce((acc, val) => (acc += val));
 }
 
-function printFabric(fabric) {
-  fabric.forEach(row => {
-    console.log(row.reduce((acc, val) => (acc += " " + val)));
-  });
-}
-
 function parseRow(row) {
   let parts = row.split(" ");
   return {

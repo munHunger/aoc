@@ -23,9 +23,6 @@ function tree(index, list) {
     list = list
       .slice(0, reduce.range.start)
       .concat(list.slice(reduce.range.end, list.length));
-    console.log("LISTS " + index + " . " + list[index]);
-    console.log(old);
-    console.log(list);
     list[index]--;
   }
   return {

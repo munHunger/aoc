@@ -13,15 +13,12 @@ function part2(input) {
   return input
     .map(row => fuelOfMass(parseInt(row)))
     .reduce((acc, val) => (acc += val), 0);
-  }
+}
 
 function fuelOfMass(mass) {
-  console.log(mass)
-  if(mass <= 0)
-    return 0;
+  if (mass <= 0) return 0;
   let fuel = Math.floor(mass / 3) - 2;
-  if(fuel <= 0)
-    return 0;
-  return fuel + fuelOfMass(fuel)
+  if (fuel <= 0) return 0;
+  return fuel + fuelOfMass(fuel);
 }
 module.exports = { solve };
