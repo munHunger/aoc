@@ -5,15 +5,16 @@ function solve(input, part) {
 
 function part1(input) {
   input = input[0].split(",").map(n => parseInt(n));
-  return computer(input, 1);
+  return computer(input, 1).slice(-1)[0];
 }
 
 function part2(input) {
   input = input[0].split(",").map(n => parseInt(n));
-  return computer(input, 5);
+  return computer(input, 5)[0];
 }
 
 function computer(input, start) {
+  let output = []
   let index = 0;
   let stack = [];
   while (input[index] != 99) {
@@ -35,20 +36,20 @@ function computer(input, start) {
         r = { val: start, consumed: 2, out: a.raw };
         break;
       case 4: //Output
-        console.log(a.ref);
+      output.push(a.ref)
         r = { consumed: 2 };
         break;
       case 5:
-        if (a !== 0) {
+        if (a.ref !== 0) {
           index = b.ref;
           r = { consumed: 0 };
-        }
+        } else r = { consumed: 3 };
         break;
       case 6:
-        if (a === 0) {
+        if (a.ref === 0) {
           index = b.ref;
           r = { consumed: 0 };
-        }
+        } else r = { consumed: 3 };
         break;
       case 7:
         r = { consumed: 4, out: c.raw, val: a.ref < b.ref ? 1 : 0 };
@@ -57,7 +58,6 @@ function computer(input, start) {
         r = { consumed: 4, out: c.raw, val: a.ref === b.ref ? 1 : 0 };
         break;
     }
-    console.log(frame);
     if (op % 10 != 4) {
       input[r.out] = r.val;
       frame.val = r.val;
@@ -65,7 +65,7 @@ function computer(input, start) {
     }
     index += r.consumed;
   }
-  return input[0];
+  return output;
 }
 
 module.exports = { solve };
