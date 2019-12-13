@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/index.js",
-      "args": ["2019", "06"]
+      "args": ["2019", "07"]
     }
   ]
 }
