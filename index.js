@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const fs = require("fs");
 
-let year = 2018;
+let year = 2025;
 let startDay = 1;
 let endDay = 25;
 const args = process.argv.slice(2);
